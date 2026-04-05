@@ -10,7 +10,8 @@ import connectDB from './config/db.js';
 
 import authRoutes from './routes/authRoutes.js';
 import documentRoutes from './routes/documentRoutes.js';
-
+import flashcardRoutes from './routes/flashcardRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,6 +44,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //Routes
 app.use('/v1/api/auth',authRoutes)
 app.use('/v1/api/documents',documentRoutes)
+app.use('/v1/api/flashcards',flashcardRoutes)
+app.use('/v1/api/aiRoutes',aiRoutes)
 
 
 app.use(errorHandler);
