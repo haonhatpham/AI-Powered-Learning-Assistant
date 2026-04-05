@@ -5,16 +5,23 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import errorHandler from './middleware/errorHandler.js';
+import connectDB from './config/db.js';
+
+import authRoutes from './routes/authRoutes.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
-conts __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename);
 
+
+//Tao server express
 const app = express();
 
-
+//Connect to database
 connectDB();
 
-
+//CORS configuration
 app.use(
     cors({
     origin: 'http://localhost:3000',
@@ -24,15 +31,19 @@ app.use(
     })
 );
 
-
+//Giúp đọc dữ liệu từ request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));    
 
+//Static folder for uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 //Routes
+app.use('/v1/api/auth',authRoutes)
 
+
+app.use(errorHandler);
 
 //404 handler
 app.use((req, res, next) => {
@@ -42,7 +53,6 @@ app.use((req, res, next) => {
 );
 
 //Start the server
-
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

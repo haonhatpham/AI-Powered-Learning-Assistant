@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React from 'react';
 
 const AppLayout = () => {
     return (
@@ -8,4 +8,4 @@ const AppLayout = () => {
     );
 };
 
-export default memo(AppLayout);
+export default AppLayout;
