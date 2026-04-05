@@ -69,9 +69,9 @@ export const reviewFlashcard = async (req,res, next) =>{
         
         if(cardIndex === -1){
            return res.status(401).json({
-                success:false,
+                success: false,
                 error: 'Card not found in set',
-                statusCode:404
+                statusCode: 404
             });
         }
 

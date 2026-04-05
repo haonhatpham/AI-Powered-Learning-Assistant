@@ -74,7 +74,7 @@ export const generateFlashcards = async (text, count = 10) => {
 /**
  * Generate quiz questions
  * @param {string} text - Document text
- * @param {number} count - Number of question
+ * @param {number} numQuestions - Number of question
  * @returns {Promise<Array<{question: string, option: Array, correctAnswer: string, explanation:string, difficulty: string}>>}
  */
 
@@ -115,7 +115,7 @@ export const generateQuiz = async ( text, numQuestions =5) => {
                 const trimmed = line.trim();
                 if( trimmed.startsWith('Q:')){
                     question = trimmed.substring(2).trim()
-                } else if (trimmed.match(/^D\d:/)){
+                } else if (trimmed.match(/^O\d:/)){
                     options.push(trimmed.substring(3).trim());
                 }
                 else if (trimmed.startsWith('C:')){
@@ -133,7 +133,7 @@ export const generateQuiz = async ( text, numQuestions =5) => {
             }
 
             if (question && options.length === 4 && correctAnswer){
-                question.push({ question,options,correctAnswer,explanation,difficulty}); 
+                questions.push({ question,options,correctAnswer,explanation,difficulty}); 
             }
 
         }
