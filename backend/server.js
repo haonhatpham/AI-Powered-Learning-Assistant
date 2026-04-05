@@ -9,6 +9,7 @@ import errorHandler from './middleware/errorHandler.js';
 import connectDB from './config/db.js';
 
 import authRoutes from './routes/authRoutes.js';
+import documentRoutes from './routes/documentRoutes.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //Routes
 app.use('/v1/api/auth',authRoutes)
+app.use('/v1/api/documents',documentRoutes)
 
 
 app.use(errorHandler);
