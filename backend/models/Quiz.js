@@ -7,7 +7,7 @@ const quizSchema = new mongoose.Schema({
         required: true, 
     },
     documentId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Document',
         required: true,
     },
@@ -46,7 +46,7 @@ const quizSchema = new mongoose.Schema({
             type: Number,
             required: true,
         },
-        selectedOption: {
+        selectedAnswer: {
             type: String,
             required: true,
         },
@@ -67,7 +67,7 @@ const quizSchema = new mongoose.Schema({
         type: Number,
        required: true,
     },
-    completeAt: {
+    completedAt: {
         type: Date,
         default: null,
     },

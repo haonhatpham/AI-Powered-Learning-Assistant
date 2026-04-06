@@ -19,7 +19,7 @@ router.post('/generate-quiz',generateQuiz);
 router.post('/generate-summary',generateSummary);
 router.post('/chat',chat);
 router.post('/explain-concept',explainConcept);
-router.post('/chat-history/:documentId',getChatHistory);
+router.get('/chat-history/:documentId',getChatHistory);
 
 
 export default router
