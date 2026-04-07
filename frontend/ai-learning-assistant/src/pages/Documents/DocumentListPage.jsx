@@ -110,7 +110,7 @@ const DocumentListPage = () => {
       return (
         <div className="min-h-[400px] flex items-center justify-center">
           <div className="text-center max-w-md">
-            <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-br from-slate-100 to-slate-200 shadow-lg shadow-slate-200/50 mb-6">
+            <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 shadow-lg shadow-slate-200/50 mb-6">
               <FileText
                 className="h-10 w-10 text-slate-400"
                 strokeWidth={1.5}
@@ -125,7 +125,7 @@ const DocumentListPage = () => {
             </p>
             <button
               onClick={() => setIsUploadModalOpen(true)}
-              className="duration-200 bg-linear-to-r from-emerald-500 to-teal-500 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 active:sacle-[0.98]"
+              className="duration-200 bg-gradient-to-r from-emerald-500 to-teal-500 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white transition-all hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-[0.98]"
             >
               <Plus className="h-4 w-4" strokeWidth={2.5} />
               Upload Document
@@ -137,13 +137,13 @@ const DocumentListPage = () => {
 
     return (
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {document?.compatMode((doc) => {
+        {documents?.map((doc) => (
           <DocumentCard
-            key={doc.id}
+            key={doc._id || doc.id}
             document={doc}
             onDelete={handleDeleteRequest}
-          />;
-        })}
+          />
+        ))}
       </div>
     );
   };
@@ -202,10 +202,10 @@ const DocumentListPage = () => {
                 </label>
                 <input
                   type="text"
-                  value={uploadFile}
+                  value={uploadTitle}
                   onChange={(e) => setUploadTitle(e.target.value)}
                   required
-                  className="w-full h-12 px-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-emerald-500 focus:bg-white focus:shado-lg focus:shadow-emerald-500/10"
+                  className="w-full h-12 px-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-emerald-500 focus:bg-white focus:shadow-lg focus:shadow-emerald-500/10"
                   placeholder="e.g., React Interview Prep"
                 />
               </div>
@@ -223,7 +223,7 @@ const DocumentListPage = () => {
                     accept=".pdf"
                   />
                   <div className="flex flex-col items-center justify-center py-10 px-6">
-                    <div className="w-14 h-14 rounded-xl bg-linear-to-r from-emerald-100 to-teal-100 flex items-center justify-center mb-4">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-emerald-100 to-teal-100 flex items-center justify-center mb-4">
                       <Upload
                         className="w-7 h-7 text-emerald-600"
                         strokeWidth={2}
@@ -260,7 +260,7 @@ const DocumentListPage = () => {
                 <button
                   type="submit"
                   disabled={uploading}
-                  className="flex-1 h-11 px-4 bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                  className="flex-1 h-11 px-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
                 >
                   {uploading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -276,7 +276,6 @@ const DocumentListPage = () => {
           </div>
         </div>
       )}
-      ;
       {isDeleteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
           <div className="relative w-full max-w-md bg-white/95 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-2xl shadow-slate-900/20 p-8">
@@ -290,7 +289,7 @@ const DocumentListPage = () => {
 
             {/*Modal Header */}
             <div className="mb-6">
-              <div className="w-12 h-12 rounded-xl bg-linear-to-r from-red-100 to-red-200 flex items-center justify-center mb-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-red-100 to-red-200 flex items-center justify-center mb-4">
                 <Trash2 className="w-6 h-6 text-red-600" strokeWidth={2} />
               </div>
               <h2 className="text-xl font-medium text-slate-900 tracking-tight">
@@ -320,7 +319,7 @@ const DocumentListPage = () => {
               <button
                 onClick={handleConfirmDelete}
                 disabled={deleting}
-                className="flex-1 h-11 px-4 bg-linear-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+                className="flex-1 h-11 px-4 bg-gradient-to-r from-red-500 to-red-500 hover:from-red-600 hover:to-red-700 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-red-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
               >
                 {deleting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -335,7 +334,6 @@ const DocumentListPage = () => {
           </div>
         </div>
       )}
-      ;
     </div>
   );
 };

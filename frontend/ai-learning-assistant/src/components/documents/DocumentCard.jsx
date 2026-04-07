@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { BrainCircuit, BookOpen, Trash2, FileText, Clcok } from "lucide-react";
+import { BrainCircuit, BookOpen, Trash2, FileText, Clock } from "lucide-react";
 import moment from "moment";
 
 //Helper function to format file size
@@ -34,13 +34,13 @@ const DocumentCard = ({ document, onDelete }) => {
 
   return (
     <div
-      className="group relative rounded-2xl border border-slate-200/60 bg-white/80 p-5 shadow-sm backdrop-blur-xl transition-all hover:shadow-slate-200/50 hover:border-slate-300/60 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-l"
+      className="group relative flex flex-col justify-between cursor-pointer rounded-2xl border border-slate-200/60 bg-white/80 p-5 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-slate-300/60 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50"
       onClick={handleNavigate}
     >
       {/* Header Section*/}
       <div>
         <div className="flex items-start justify-between gap-3 mb-4">
-          <div className="flex shrink-0 h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-emerald-500 to-cyan-500 shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform duration-300">
+          <div className="flex shrink-0 h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-lg shadow-blue-500/25 transition-transform duration-300 group-hover:scale-110">
             <FileText className="h-6 w-6 text-white" strokeWidth={2} />
           </div>
           <button
@@ -101,7 +101,7 @@ const DocumentCard = ({ document, onDelete }) => {
       {/* Footer Section*/}
       <div className="mt-5 pt-4 flex border-t border-slate-100">
         <div className="flex items-center gap-1.5 text-xs text-slate-500">
-          <Clcok className="h-3.5 w-3.5" strokeWidth={2} />
+          <Clock className="h-3.5 w-3.5" strokeWidth={2} />
           <span className="whitespace-nowrap">
             Uploaded {moment(document.createdAt).fromNow()}
           </span>
@@ -109,7 +109,7 @@ const DocumentCard = ({ document, onDelete }) => {
       </div>
 
       {/* Hover Indicator*/}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-br from-emerald-500/0 to-teal-500/0 group:hover:from-emerald-500/5 group:hover:to-teal-500/5 transition-all duration-300" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/0 to-teal-500/0 transition-all duration-300 group-hover:from-emerald-500/5 group-hover:to-teal-500/5" />
     </div>
   );
 };

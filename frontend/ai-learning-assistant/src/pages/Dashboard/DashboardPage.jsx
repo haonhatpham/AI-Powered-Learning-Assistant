@@ -8,7 +8,7 @@ import {
   BrainCircuit,
   TrendingUp,
   Clock,
-} from "react-router-dom";
+} from "lucide-react";
 
 const DashboardPage = () => {
   const [dashboarData, setDashboardData] = useState(null);
@@ -67,8 +67,8 @@ const DashboardPage = () => {
       label: "Total Quizzes",
       value: dashboarData.overview.totalQuizzes,
       icon: BrainCircuit,
-      gradient: "from-emmerald-400 to-teal-500",
-      shadowColor: "shadow-emmerald-500/25",
+      gradient: "from-emerald-400 to-teal-500",
+      shadowColor: "shadow-emerald-500/25",
     },
   ];
 
@@ -88,17 +88,17 @@ const DashboardPage = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-5">
-          {stats.map((stat, index) => {
+          {stats.map((stat, index) => (
             <div
               key={index}
-              className="group relative bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-xl shadow-slate-200/50 rounded-2xl shadow-xl shadow-slate-200/50 p-6 hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-300 hover:-translate-y-l"
+              className="group relative bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl shadow-xl shadow-slate-200/50 p-6 hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="flex item-center justify-between">
+              <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
                   {stat.label}
                 </span>
                 <div
-                  className={`w-11 h-11 rounded-xl bg-linear-to-br ${stat.gradient} shadow-lg ${stat.shadowColor} flex items-center justify-center group:hover:scale-110 transition-transform duration-300`}
+                  className={`w-11 h-11 rounded-xl bg-gradient-to-br ${stat.gradient} shadow-lg ${stat.shadowColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
                 >
                   <stat.icon className="w-5 h-5 text-white" strokeWidth={2} />
                 </div>
@@ -106,13 +106,13 @@ const DashboardPage = () => {
               <div className="text-3xl font-semibold text-slate-900 tracking-tight">
                 {stat.value}
               </div>
-            </div>;
-          })}
+            </div>
+          ))}
         </div>
         {/* Recent Activity Section */}
         <div className="bg-white/80 backdrop-blur-xl border border-slate-200/60  rounded-2xl shadow-xl shadow-slate-200/50">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
               <Clock className="w-5 h-5 text-slate-600" strokeWidth={2} />
             </div>
             <h3 className="text-xl font-medium text-slate-900 tracking-tight">
@@ -150,8 +150,8 @@ const DashboardPage = () => {
                         <div
                           className={`w-2 h-2 rounded-full ${
                             activity.type === "document"
-                              ? "bg-linear-to-r from-blue-400 to-cyan-500"
-                              : "bg-linear-to-r from-emerald-400 to-teal-500"
+                              ? "bg-gradient-to-r from-blue-400 to-cyan-500"
+                              : "bg-gradient-to-r from-emerald-400 to-teal-500"
                           }`}
                         />
                         <p className="text-sm font-medium text-slate-900 truncate">
@@ -163,7 +163,7 @@ const DashboardPage = () => {
                           </span>
                         </p>
                       </div>
-                      <p className="text-sx text-slate-500 pl-4">
+                      <p className="text-xs text-slate-500 pl-4">
                         {new Date(activity.timestamp).toLocaleString()}
                       </p>
                     </div>
@@ -184,7 +184,7 @@ const DashboardPage = () => {
                 <Clock className="w-8 h-8 text-slate-400" />
               </div>
               <p className="text-sm text-slate-600">No recent activity yet.</p>
-              <p className="text-xs text-skate-500 mt-1">
+              <p className="text-xs text-slate-500 mt-1">
                 Start learning to see your progress heare
               </p>
             </div>
