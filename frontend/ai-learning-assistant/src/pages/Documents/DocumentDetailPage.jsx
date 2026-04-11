@@ -6,7 +6,8 @@ import Spinner from "../../components/common/Spinner";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import PageHeader from "../../components/common/PageHeader";
 import Tabs from "../../components/common/Tabs";
-
+import ChatInterface from "../../components/chat/ChatInterface";
+import AIActions from "../../components/ai/AIActions";
 const DocumentDetailPage = () => {
   const { id } = useParams();
   const [document, setDocument] = useState(null);
@@ -39,7 +40,7 @@ const DocumentDetailPage = () => {
       return filePath;
     }
 
-    const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:8000";
+    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
     return `${baseUrl}${filePath.startsWith("/") ? "" : "/"}${filePath}`;
   };
 
@@ -89,7 +90,9 @@ const DocumentDetailPage = () => {
   const renderChat = () => {
     return <ChatInterface />;
   };
-  const renderAIActions = () => "renderAIActions";
+  const renderAIActions = () => {
+    return <AIActions />;
+  };
   const renderFlashcardsTab = () => "renderFlashcardsTab";
   const renderQuizzesTab = () => "renderQuizzesTab";
 

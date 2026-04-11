@@ -1,34 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { Send, MessageSquarem, Sparkles } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
+import { Send, MessageSquare, Sparkles } from "lucide-react";
 import { useParams } from "react-router-dom";
 import aiService from "../../services/aiService";
 import { useAuth } from "../../context/AuthContext";
 import Spinner from "../common/Spinner";
-import MardownRenderer from "./common/MardownRenderer";
+import MarkownRenderer from "../common/MarkdownRenderer";
 
 const ChatInterface = () => {
   const { id: documentId } = useParams();
   const { user } = useAuth();
-  const { history, setHistory } = useState([]);
-  const { message, setMessage } = useState("");
-  const { loading, setLoading } = useState(false);
-  const { initialLoading, setInitialLoading } = useState(true);
+  const [history, setHistory] = useState([]);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const messagesEndRef = useRef();
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth " });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
+    // 1) Không gọi API khi thiếu documentId (tránh URL sai / request vô nghĩa).
+    if (!documentId) {
+      setInitialLoading(false);
+      setHistory([]);
+      return;
+    }
     const fetchChatHistory = async () => {
       try {
-        setInitiaLoading(true);
+        setInitialLoading(true);
         const response = await aiService.getChatHistory(documentId);
         setHistory(response.data);
       } catch (error) {
-        console.error("Failed to fetch chat history: ", error);
+        console.error(
+          "Failed to fetch chat history:",
+          error?.message || error?.error || error,
+        );
       } finally {
-        setInitiaLoading(false);
+        setInitialLoading(false);
       }
     };
 
@@ -98,7 +107,7 @@ const ChatInterface = () => {
             <p className="text-sm leading-relaxed">{msg.content}</p>
           ) : (
             <div className="prose prose-sm max-w-none prose-slate">
-              <MarkdownRenderer content={msg.content} />
+              <MarkownRenderer content={msg.content} />
             </div>
           )}
         </div>

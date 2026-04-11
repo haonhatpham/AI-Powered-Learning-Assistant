@@ -8,7 +8,7 @@ const flashcardSchema = new mongoose.Schema({
         required: true,
     },
     documentId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Document',
         required: true,
     },

@@ -91,7 +91,7 @@ const DocumentCard = ({ document, onDelete }) => {
                 strokeWidth={2}
               />
               <span className="text-xs font-semibold text-emerald-700">
-                {document.flashcardCount} Quizzes
+                {document.quizCount} Quizzes
               </span>
             </div>
           )}
