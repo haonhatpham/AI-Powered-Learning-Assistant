@@ -3,8 +3,7 @@ import mongoose from 'mongoose';
 const flashcardSchema = new mongoose.Schema({
     userId:{
         type: mongoose.Schema.Types.ObjectId,
-
-        ref: 'User',
+        ref: "User",
         required: true,
     },
     documentId: {
@@ -40,7 +39,7 @@ const flashcardSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-flashcardSchema.index({ userId: 1, documentId: 1 }, { unique: true });
+flashcardSchema.index({ userId: 1, documentId: 1 });
 
 const Flashcard = mongoose.model('Flashcard', flashcardSchema);
 

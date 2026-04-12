@@ -8,11 +8,15 @@ const errorHandler = (err, req, res, next) => {
         message = 'Resource not found';
     }
 
-    //Mongoose duplicate key error
-    if(err.name === 11000) {
-        const field = Object.keys(err.keyValue)[0];
-        statusCode = 400;
-        message = `${field} already exists`;
+    // MongoDB duplicate key (code 11000; err.name is usually 'MongoServerError')
+    if (err.code === 11000) {
+        statusCode = 409;
+        if (err.keyValue && typeof err.keyValue === "object") {
+            const field = Object.keys(err.keyValue)[0];
+            message = field ? `${field} already exists` : "Duplicate entry";
+        } else {
+            message = "Duplicate entry";
+        }
     }
 
     //Mongoose validation error
