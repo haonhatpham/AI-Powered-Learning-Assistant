@@ -120,20 +120,20 @@ const DashboardPage = () => {
             </h3>
           </div>
           {dashboarData.recentActivity &&
-          (dashboarData.recentActivity.documents.length > 0 ||
-            dashboarData.recentActivity.quizzes.length > 0) ? (
+          ((dashboarData.recentActivity.documents?.length ?? 0) > 0 ||
+            (dashboarData.recentActivity.quizzes?.length ?? 0) > 0) ? (
             <div className="space-y-3">
               {[
                 ...(dashboarData.recentActivity.documents || []).map((doc) => ({
                   id: doc.id,
-                  description: doc.titel,
+                  description: doc.title,
                   timestamp: doc.lastAccessed,
                   link: `/documents/${doc._id}`,
                   type: "document",
                 })),
                 ...(dashboarData.recentActivity.quizzes || []).map((quiz) => ({
                   id: quiz.id,
-                  description: quiz.titel,
+                  description: quiz.title,
                   timestamp: quiz.lastAccessed,
                   link: `/quizzes/${quiz._id}`,
                   type: "quiz",

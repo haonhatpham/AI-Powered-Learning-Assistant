@@ -171,7 +171,7 @@ const FlashcardManager = ({ documentId }) => {
             <button
               onClick={handlePrevCard}
               disabled={selectedSet.cards.length <= 1}
-              className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-al duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
+              className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
             >
               <ChevronLeft
                 className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200"
@@ -190,7 +190,7 @@ const FlashcardManager = ({ documentId }) => {
             <button
               onClick={handleNextCard}
               disabled={selectedSet.cards.length <= 1}
-              className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-al duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
+              className="group flex items-center gap-2 px-5 h-11 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-100"
             >
               Next
               <ChevronRight
