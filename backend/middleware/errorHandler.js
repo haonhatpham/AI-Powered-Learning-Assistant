@@ -28,7 +28,12 @@ const errorHandler = (err, req, res, next) => {
     //Multer file size error
     if(err.code === 'LIMIT_FILE_SIZE') {
         statusCode = 400;
-        message = 'File size is too large. Maximum limit is 5MB';
+        const maxBytes = Number.parseInt(process.env.MAX_FILE_SIZE, 10) || 10485760; // 10MB default (must match multer)
+        const mb = maxBytes / (1024 * 1024);
+        const mbText = Number.isFinite(mb)
+            ? (Number.isInteger(mb) ? `${mb}` : mb.toFixed(1).replace(/\.0$/, ""))
+            : "10";
+        message = `File size is too large. Maximum limit is ${mbText}MB`;
     }
 
     //JWT authentication error

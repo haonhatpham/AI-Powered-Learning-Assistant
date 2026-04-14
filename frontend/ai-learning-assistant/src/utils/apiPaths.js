@@ -1,4 +1,9 @@
-export const BASE_URL = "http://localhost:8000/v1";
+// API base should produce requests like: `${BASE_URL}/api/...` -> `/v1/api/...`
+// - Dev: call backend directly on localhost
+// - Prod (same origin): relative path to backend
+export const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV ? "http://localhost:8000/v1" : "/v1");
 
 export const API_PATHS = {
     AUTH: {

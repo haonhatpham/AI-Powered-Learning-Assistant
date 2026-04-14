@@ -85,7 +85,7 @@ export const generateQuiz = async ( text, numQuestions =5) => {
     O1: [Option 1]
     O2: [Option 2]
     O3: [Option 3]
-    O4: [Option 3]
+    O4: [Option 4]
     C: [Correct option - exactly as written above ]
     E: [Brief explanation]
     D: [Difficulty: easy, medium, or hard]

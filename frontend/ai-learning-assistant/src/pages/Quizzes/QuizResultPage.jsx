@@ -155,7 +155,7 @@ const QuizResultPage = () => {
             (opt) => opt === result.selectedAnswer,
           );
 
-          const correctAnswerIndex = result.correctAnswer.startsWith("0")
+          const correctAnswerIndex = result.correctAnswer.startsWith("O")
             ? parseInt(result.correctAnswer.substring(1)) - 1
             : result.options.findIndex((opt) => opt === result.correctAnswer);
 

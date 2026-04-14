@@ -27,7 +27,9 @@ const app = express();
 connectDB();
 
 //CORS configuration
-app.use(
+if(process.env.NODE_ENV !== "production")
+{
+    app.use(
     cors({
     origin: ['http://localhost:3000', 'http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -35,14 +37,15 @@ app.use(
     credentials: true,
     })
 );
+}
 
 //Giúp đọc dữ liệu từ request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));    
 
 //Static folder for uploaded files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+//đã chuyển sang cloudinary
 
 //Routes
 app.use('/v1/api/auth',authRoutes)
@@ -52,15 +55,24 @@ app.use('/v1/api/ai',aiRoutes)
 app.use('/v1/api/quizzes',quizRoutes)
 app.use('/v1/api/progress',progressRoutes)
 
+// Serve frontend in production (keep API routes above this)
+if (process.env.NODE_ENV === "production") {
+    const distPath = path.join(__dirname, "../frontend/ai-learning-assistant/dist");
+    app.use(express.static(distPath));
 
-app.use(errorHandler);
-
-//404 handler
-app.use((req, res, next) => {
-    res.status(404).json({ message: 'Route not found' });
+    // SPA fallback: only for non-API routes
+    app.get(/.*/, (req, res, next) => {
+        if (req.path.startsWith("/v1/api")) return next();
+        res.sendFile(path.join(distPath, "index.html"));
+    });
 }
 
-);
+// 404 handler (API only)
+app.use("/v1/api", (req, res) => {
+    res.status(404).json({ message: "Route not found" });
+});
+
+app.use(errorHandler);
 
 //Start the server
 const PORT = process.env.PORT || 8000;
