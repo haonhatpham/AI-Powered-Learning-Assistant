@@ -1,5 +1,8 @@
 const errorHandler = (err, req, res, next) => {
-    let statusCode = res.statusCode || 500;
+    // Express defaults res.statusCode to 200; don't accidentally return 200 for errors.
+    let statusCode =
+        err?.statusCode ||
+        (res.statusCode && res.statusCode !== 200 ? res.statusCode : 500);
     let message = err.message || 'Internal Server Error';
 
     //Mongoose bad ObjectId
