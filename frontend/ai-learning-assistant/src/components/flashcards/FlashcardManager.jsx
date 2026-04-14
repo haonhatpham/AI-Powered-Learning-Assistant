@@ -54,7 +54,11 @@ const FlashcardManager = ({ documentId }) => {
       toast.success("Flashcards generated successfully!");
       fetchFlashcardSets();
     } catch (error) {
-      toast.error(error.message || "Failed to generate flashcards.");
+      if (error?.errorCode === "AI_QUOTA_EXCEEDED" || error?.statusCode === 429) {
+        toast.error("Bạn đã hết quota AI. Vui lòng thử lại sau.");
+      } else {
+        toast.error(error?.error || error?.message || "Failed to generate flashcards.");
+      }
     } finally {
       setGenerating(false);
     }

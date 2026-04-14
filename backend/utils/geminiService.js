@@ -10,6 +10,45 @@ if (!process.env.GEMINI_API_KEY){
     process.exit(1);
 }
 
+const toAppError = (error, fallbackMessage, errorCode = "AI_REQUEST_FAILED") => {
+    const status =
+        error?.status ||
+        error?.response?.status ||
+        error?.response?.statusCode ||
+        error?.statusCode ||
+        error?.code;
+
+    const msg = String(
+        error?.message ||
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        ""
+    );
+    const lower = msg.toLowerCase();
+
+    const looksLikeQuota =
+        status === 429 ||
+        status === "429" ||
+        lower.includes("quota") ||
+        lower.includes("resource_exhausted") ||
+        lower.includes("rate limit") ||
+        lower.includes("too many requests");
+
+    if (looksLikeQuota) {
+        const e = new Error("AI quota đã hết hoặc đang bị giới hạn. Vui lòng thử lại sau.");
+        e.statusCode = 429;
+        e.errorCode = "AI_QUOTA_EXCEEDED";
+        e.cause = error;
+        return e;
+    }
+
+    const e = new Error(fallbackMessage);
+    e.statusCode = Number.isInteger(status) ? status : 502;
+    e.errorCode = errorCode;
+    e.cause = error;
+    return e;
+};
+
 /**
  * Generate flashcards from text
  * @param {string} text - Document text
@@ -67,7 +106,7 @@ export const generateFlashcards = async (text, count = 10) => {
 
     }catch (error){
         console.error('Gemini API error:', error);
-        throw new Error('Failed to generate flashcards');
+        throw toAppError(error, 'Failed to generate flashcards', "AI_FLASHCARDS_FAILED");
     }
 };
 
@@ -140,7 +179,7 @@ export const generateQuiz = async ( text, numQuestions =5) => {
         return questions.slice(0, numQuestions);
     }catch(error){
         console.error('Gemini API error:', error);
-        throw new Error('Failed to generate quiz')
+        throw toAppError(error, 'Failed to generate quiz', "AI_QUIZ_FAILED");
     }
 };
 
@@ -165,7 +204,7 @@ export const generateSummary =async (text) => {
         return generatedText;
     } catch (error){
         console.error('Gemini API error: ', error);
-        throw new Error('Failed to generate summary')
+        throw toAppError(error, 'Failed to generate summary', "AI_SUMMARY_FAILED");
     }
 };
 
@@ -197,7 +236,7 @@ export const chatWithContext = async (question, chunks) =>{
         return generatedText;
     }   catch (error){
         console.error('Gemini API error: ', error);
-        throw new Error('Failed to process chat request');
+        throw toAppError(error, 'Failed to process chat request', "AI_CHAT_FAILED");
     }
 };
 
@@ -227,6 +266,6 @@ export const explainConcept = async (concept, context) =>{
         return generatedText;
     }catch (error){
         console.error('Gemini API error: ', error);
-        throw new Error('Failed to explain concept');
+        throw toAppError(error, 'Failed to explain concept', "AI_EXPLAIN_FAILED");
     }
 };

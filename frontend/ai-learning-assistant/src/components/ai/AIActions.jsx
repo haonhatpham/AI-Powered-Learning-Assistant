@@ -26,7 +26,11 @@ const AIActions = () => {
       setModalContent(summary || "");
       setIsModalOpen(true);
     } catch (error) {
-      toast.error("Failed to generate summary");
+      if (error?.errorCode === "AI_QUOTA_EXCEEDED" || error?.statusCode === 429) {
+        toast.error("Bạn đã hết quota AI. Vui lòng thử lại sau.");
+      } else {
+        toast.error(error?.error || error?.message || "Failed to generate summary");
+      }
     } finally {
       setLoadingAction(null);
     }
@@ -50,7 +54,11 @@ const AIActions = () => {
       setIsModalOpen(true);
       setConcept("");
     } catch (error) {
-      toast.error("Failed to explain concept");
+      if (error?.errorCode === "AI_QUOTA_EXCEEDED" || error?.statusCode === 429) {
+        toast.error("Bạn đã hết quota AI. Vui lòng thử lại sau.");
+      } else {
+        toast.error(error?.error || error?.message || "Failed to explain concept");
+      }
     } finally {
       setLoadingAction(null);
     }
