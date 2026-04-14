@@ -1,78 +1,81 @@
 # AI-Powered Learning Assistant
 
-Ứng dụng giúp bạn **upload PDF → trích xuất nội dung → học tương tác** với:
-- Chat hỏi đáp theo ngữ cảnh tài liệu
-- Tạo **flashcards** tự động
-- Tạo **quiz trắc nghiệm** tự động
-- Tạo **tóm tắt** tự động
-- Theo dõi tiến độ học tập (dashboard)
+Turn your PDFs into an **interactive learning experience** with:
+- Document-aware **AI chat**
+- Auto-generated **flashcards**
+- Auto-generated **quizzes**
+- **Summaries**
+- A simple **progress dashboard**
 
-> Backend: `Express + MongoDB + JWT` • AI: `Google Gemini` • Upload: `Cloudinary` • Frontend: `React 19 + Vite + TailwindCSS`
+> Backend: `Express + MongoDB + JWT` • AI: `Google Gemini` (basic RAG) • Uploads: `Cloudinary` • Frontend: `React 19 + Vite + TailwindCSS`
 
-## ⚡ Tính năng chính
+## ⚡ Key Features
 
-- **Xác thực người dùng**: đăng ký/đăng nhập, profile, đổi mật khẩu (JWT Bearer token)
-- **Quản lý tài liệu PDF**
-  - Upload PDF (Multer) và lưu file trên Cloudinary
-  - Trích xuất text từ PDF và chia đoạn (chunk) để phục vụ chat theo ngữ cảnh
-  - Xem PDF trực tiếp trong UI (iframe)
-- **AI học tập (Gemini)**
-  - Tạo flashcards theo số lượng yêu cầu
-  - Tạo quiz trắc nghiệm
-  - Tóm tắt tài liệu
-  - Chat theo ngữ cảnh các đoạn liên quan trong tài liệu
-  - Giải thích khái niệm dựa trên nội dung tài liệu
+- **Authentication**: register/login, profile, change password (JWT Bearer token)
+- **PDF documents**
+  - Upload PDFs (Multer) and store them on Cloudinary
+  - Extract text from PDFs and split into chunks for context-aware Q&A
+  - View PDFs directly in the UI (iframe)
+- **AI learning (Gemini)**
+  - Generate flashcards (configurable count)
+  - Generate multiple-choice quizzes
+  - Generate document summaries
+  - Chat with document context (basic RAG: retrieves relevant chunks before answering)
+  - Explain a concept based on document content
 - **Flashcards**
-  - Lưu bộ thẻ vào MongoDB
-  - Đánh dấu sao (star), ghi nhận review
+  - Persist flashcard sets in MongoDB
+  - Star cards and track reviews
 - **Quizzes**
-  - Lưu quiz theo tài liệu
-  - Submit và xem kết quả
-- **Progress dashboard**
-  - Tổng quan tiến độ (API dashboard)
+  - Save quizzes per document
+  - Submit answers and view results
+- **Progress**
+  - Dashboard endpoint for basic learning stats
 
-## 🛠️ Công nghệ sử dụng
+## 🛠️ Tech Stack
 
 ### Backend
 - **Node.js + Express 5**
 - **MongoDB + Mongoose**
-- **JWT** cho auth (`Authorization: Bearer <token>`)
-- **@google/genai** (Google Gemini) cho AI features
-- **pdf-parse** để trích xuất text từ PDF
-- **Multer** nhận file upload
-- **Cloudinary** lưu file PDF online
+- **JWT** auth (`Authorization: Bearer <token>`)
+- **@google/genai** (Google Gemini) for AI features
+- **pdf-parse** for text extraction
+- **Multer** for uploads
+- **Cloudinary** for PDF storage
 
 ### Frontend
 - **React 19** + **Vite**
-- **React Router** cho routing
-- **TailwindCSS 4** cho UI
-- **Axios** cho gọi API
-- **react-markdown + remark-gfm** cho hiển thị nội dung dạng markdown
-- **react-hot-toast** cho thông báo
+- **React Router**
+- **TailwindCSS 4**
+- **Axios**
+- **react-markdown + remark-gfm**
+- **react-hot-toast**
 
-## 🧱 Kiến trúc & luồng hoạt động
+## 🧱 Architecture Overview
 
 - **API prefix**: `/v1/api/*`
-- **Dev**: frontend gọi trực tiếp backend qua `http://localhost:8000/v1`
-- **Production**: backend serve luôn build của frontend (`frontend/ai-learning-assistant/dist`) và dùng base path `/v1`
+- **Development**: frontend calls backend at `http://localhost:8000/v1`
+- **Production**: backend serves the frontend build from `frontend/ai-learning-assistant/dist` and uses `/v1`
 
-Luồng upload và xử lý PDF:
-1. Client upload PDF → `POST /v1/api/documents/upload`
-2. Backend upload file lên Cloudinary, tạo Document với trạng thái `processing`
-3. Backend trích xuất text + tạo chunks (background) → cập nhật Document sang `ready`
-4. Các tính năng AI (chat/flashcards/quiz/summary) chỉ hoạt động khi Document `ready`
+Upload & processing flow:
+1. Client uploads a PDF → `POST /v1/api/documents/upload`
+2. Backend uploads the file to Cloudinary and creates a Document with status `processing`
+3. Backend extracts text + creates chunks (background) → updates status to `ready`
+4. AI features (chat/flashcards/quiz/summary) work only when the Document is `ready`
 
-## 🚀 Bắt đầu nhanh
+Basic RAG used in chat:
+- **Retrieve**: select a few most relevant chunks from the document for the user’s question
+- **Augment**: build a prompt that includes those chunks as context
+- **Generate**: Gemini produces the final answer grounded in that context
 
-### Yêu cầu
-- Node.js (khuyến nghị LTS)
-- MongoDB (local hoặc MongoDB Atlas)
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (LTS recommended)
+- MongoDB (local or Atlas)
 - Cloudinary account
 - Google Gemini API key
 
-### Cài đặt
-
-Clone repo và cài dependencies cho cả backend + frontend.
+### Install & Run (Dev)
 
 #### 1) Backend
 
@@ -81,16 +84,16 @@ cd backend
 npm install
 ```
 
-Tạo file env:
+Create env file:
 - Copy `backend/.env.example` → `backend/.env`
 
-Chạy dev:
+Run:
 
 ```bash
 npm run dev
 ```
 
-Backend mặc định chạy ở `http://localhost:8000`.
+Backend runs on `http://localhost:8000` by default.
 
 #### 2) Frontend
 
@@ -100,34 +103,34 @@ npm install
 npm run dev
 ```
 
-Frontend mặc định ở `http://localhost:5173`.
+Frontend runs on `http://localhost:5173` by default.
 
-## 📦 Biến môi trường
+## 📦 Environment Variables
 
 ### Backend (`backend/.env`)
 
-Tạo từ `backend/.env.example`.
+Create from `backend/.env.example`.
 
-- **MONGO_URI**: chuỗi kết nối MongoDB
-- **PORT**: port backend (mặc định 8000)
-- **JWT_SECRET**: secret để ký JWT
-- **JWT_EXPIRE**: thời hạn token (ví dụ `7d`)
-- **NODE_ENV**: `development` hoặc `production`
-- **MAX_FILE_SIZE**: giới hạn upload (bytes)
-- **GEMINI_API_KEY**: API key của Google Gemini
-- **CLOUDINARY_CLOUD_NAME / CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET**: cấu hình Cloudinary
+- **MONGO_URI**: MongoDB connection string
+- **PORT**: backend port (default 8000)
+- **JWT_SECRET**: JWT signing secret
+- **JWT_EXPIRE**: token expiry (e.g. `7d`)
+- **NODE_ENV**: `development` or `production`
+- **MAX_FILE_SIZE**: upload limit (bytes)
+- **GEMINI_API_KEY**: Google Gemini API key
+- **CLOUDINARY_CLOUD_NAME / CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET**: Cloudinary config
 
-### Frontend (tuỳ chọn)
+### Frontend (optional)
 
-Frontend có thể cấu hình base URL qua env:
-- **VITE_API_BASE_URL**: base URL cho axios (ví dụ `http://localhost:8000/v1`)
-- **VITE_API_URL**: (một số nơi dùng để dựng URL xem PDF), ví dụ `http://localhost:8000`
+You can override API base URLs:
+- **VITE_API_BASE_URL**: axios base URL (e.g. `http://localhost:8000/v1`)
+- **VITE_API_URL**: used by the PDF viewer in some places (e.g. `http://localhost:8000`)
 
-> Nếu không set, frontend sẽ tự dùng `http://localhost:8000/v1` khi dev và `/v1` khi production.
+> If not set, the frontend defaults to `http://localhost:8000/v1` in dev and `/v1` in production.
 
-## 🧩 API endpoints (tóm tắt)
+## 🧩 API Endpoints (Summary)
 
-Tất cả endpoint dưới đây dùng prefix `/v1`.
+All routes below use the `/v1` prefix.
 
 ### Auth (`/api/auth`)
 - `POST /api/auth/register`
@@ -167,15 +170,15 @@ Tất cả endpoint dưới đây dùng prefix `/v1`.
 ### Progress (`/api/progress`) (protected)
 - `GET /api/progress/dashboard`
 
-## 🧪 Scripts hữu ích
+## 🧪 Useful Scripts
 
 ### Root
-- `npm run build`: cài deps backend + frontend và build frontend
-- `npm run start`: chạy backend (dùng để serve API + frontend build khi `NODE_ENV=production`)
+- `npm run build`: installs deps for backend + frontend and builds the frontend
+- `npm run start`: starts the backend (serves API + frontend build when `NODE_ENV=production`)
 
 ### Backend
-- `npm run dev`: chạy với nodemon
-- `npm start`: chạy production
+- `npm run dev`: nodemon dev server
+- `npm start`: production start
 
 ### Frontend
 - `npm run dev`
@@ -185,22 +188,22 @@ Tất cả endpoint dưới đây dùng prefix `/v1`.
 
 ## 🛠️ Troubleshooting
 
-- **CORS lỗi khi dev**
-  - Backend cho phép origin `http://localhost:3000` và `http://localhost:5173`. Hãy đảm bảo bạn chạy frontend đúng port.
-- **Upload PDF thất bại**
-  - Kiểm tra `MAX_FILE_SIZE`
-  - Kiểm tra cấu hình Cloudinary và quyền truy cập
-- **AI không hoạt động**
-  - Kiểm tra `GEMINI_API_KEY` hợp lệ và còn quota
-  - Nếu bị 429/quota: thử lại sau
-- **MongoDB không kết nối được**
-  - Kiểm tra `MONGO_URI` và IP allowlist (nếu dùng Atlas)
+- **CORS issues in dev**
+  - Backend allows `http://localhost:3000` and `http://localhost:5173`. Make sure you run the frontend on the correct port.
+- **PDF upload fails**
+  - Check `MAX_FILE_SIZE`
+  - Verify Cloudinary credentials
+- **AI features not working**
+  - Verify `GEMINI_API_KEY` and quota
+  - If you get 429/quota errors, try again later
+- **MongoDB connection errors**
+  - Check `MONGO_URI` and Atlas IP allowlist (if applicable)
 
-## 🔐 Bảo mật (khuyến nghị)
+## 🔐 Security Notes
 
-- **Không commit file `.env`** lên repo.
-- Nếu `.env`/secret đã từng bị lộ, hãy **rotate** các key (MongoDB credentials, JWT secret, Gemini API key, Cloudinary secret) ngay.
+- **Never commit `.env`** files.
+- If any secret was ever pushed, **rotate** it (MongoDB credentials, JWT secret, Gemini API key, Cloudinary secret).
 
 ## 📄 License
 
-MIT (xem `LICENSE`).
+MIT (see `LICENSE`).
