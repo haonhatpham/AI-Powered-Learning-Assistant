@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { BrainCircuit, Mail, Lock, ArrowRight } from 'lucide-react';
-import {useAuth} from '../../context/AuthContext';
+import {useAuth} from '../../context/authContext';
 import authService from '../../services/authService';
 
 const LoginPage = () => {

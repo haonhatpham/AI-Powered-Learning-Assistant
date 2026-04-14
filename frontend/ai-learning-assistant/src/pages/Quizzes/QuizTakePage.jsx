@@ -69,6 +69,7 @@ const QuizTakePage = () => {
       toast.success("Quiz submitted successfully!");
       navigate(`/quizzes/${quizId}/results`);
     } catch (error) {
+      console.error(error);
       toast.error(error.message || "Failed to submit quiz.");
     } finally {
       setSubmitting(false);
@@ -96,7 +97,6 @@ const QuizTakePage = () => {
   }
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
-  const isAnswered = selectedAnswers.hasOwnProperty(currentQuestion._id);
   const answeredCount = Object.keys(selectedAnswers).length;
 
   return (
@@ -245,7 +245,8 @@ const QuizTakePage = () => {
       {/* Question Navigation Dots */}
       <div className="mt-6 flex items-center justify-center gap-2 flex-wrap">
         {quiz.questions.map((_, index) => {
-          const isAnsweredQuestion = selectedAnswers.hasOwnProperty(
+          const isAnsweredQuestion = Object.prototype.hasOwnProperty.call(
+            selectedAnswers,
             quiz.questions[index]._id,
           );
           const isCurrent = index === currentQuestionIndex;

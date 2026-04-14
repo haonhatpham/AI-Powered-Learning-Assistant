@@ -3,7 +3,6 @@ import PageHeader from "../../components/common/PageHeader";
 import Button from "../../components/common/Button";
 import Spinner from "../../components/common/Spinner";
 import authService from "../../services/authService";
-import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { User, Mail, Lock } from "lucide-react";
 
@@ -24,6 +23,7 @@ const ProfilePage = () => {
         setUsername(data.username);
         setEmail(data.email);
       } catch (error) {
+        console.error(error);
         toast.error("Failed to fetch profile data.");
       } finally {
         setLoading(false);
@@ -38,7 +38,7 @@ const ProfilePage = () => {
       toast.error("New password do not match.");
       return;
     }
-    if (newPassword < 6) {
+    if (newPassword.length < 6) {
       toast.error("New password must be at least 6 characters long.");
       return;
     }
@@ -50,7 +50,7 @@ const ProfilePage = () => {
       setNewPassword("");
       setConfirmNewPassword("");
     } catch (error) {
-      toast.error(error.message || "Failed to changed password.");
+      toast.error(error?.message || "Failed to change password.");
     } finally {
       setPasswordLoading(false);
     }
