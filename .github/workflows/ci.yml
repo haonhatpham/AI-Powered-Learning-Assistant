@@ -23,7 +23,7 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/ai-learning-assistant/package-lock.json
       - name: Install deps
-        run: npm ci
+        run: npm install
       - name: Lint
         run: npm run lint
       - name: Build
