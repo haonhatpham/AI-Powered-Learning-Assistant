@@ -43,7 +43,7 @@ jobs:
           cache: npm
           cache-dependency-path: backend/package-lock.json
       - name: Install deps
-        run: npm ci
+        run: npm install
       - name: Syntax check
         run: node -c server.js
 
